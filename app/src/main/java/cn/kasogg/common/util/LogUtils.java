@@ -10,7 +10,7 @@ package cn.kasogg.common.util;
 
 import android.util.Log;
 
-import static cn.kasogg.common.util.constants.Constants.DEBUG;
+import static cn.kasogg.common.util.constants.Constants.LOG_OPEN;
 
 public class LogUtils {
     private static String DEFAULT_TAG = "LOG";
@@ -32,42 +32,42 @@ public class LogUtils {
     }
 
     public static void debug(String tag, Object o) {
-        if (DEBUG)
+        if (LOG_OPEN)
             Log.d(tag, o == null ? "" : o.toString());
     }
 
     public static void info(String tag, Object o) {
-        if (DEBUG)
+        if (LOG_OPEN)
             Log.i(tag, o == null ? "" : o.toString());
     }
 
     public static void warn(String tag, Object o) {
-        if (DEBUG)
+        if (LOG_OPEN)
             Log.w(tag, o == null ? "" : o.toString());
     }
 
     public static void error(String tag, Object o) {
-        if (DEBUG)
+        if (LOG_OPEN)
             Log.e(tag, o == null ? "" : o.toString());
     }
 
     public static void debug(Class<?> c, Object o) {
-        if (DEBUG)
+        if (LOG_OPEN)
             Log.d(c.getSimpleName(), o == null ? "" : o.toString());
     }
 
     public static void info(Class<?> c, Object o) {
-        if (DEBUG)
+        if (LOG_OPEN)
             Log.i(c.getSimpleName(), o == null ? "" : o.toString());
     }
 
     public static void warn(Class<?> c, Object o) {
-        if (DEBUG)
+        if (LOG_OPEN)
             Log.w(c.getSimpleName(), o == null ? "" : o.toString());
     }
 
     public static void error(Class<?> c, Object o) {
-        if (DEBUG)
+        if (LOG_OPEN)
             Log.e(c.getSimpleName(), o == null ? "" : o.toString());
     }
 }

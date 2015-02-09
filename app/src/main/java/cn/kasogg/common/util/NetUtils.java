@@ -49,6 +49,32 @@ public class NetUtils {
     }
 
     /**
+     * 获取当前手机的网络提供商
+     *
+     * @param context
+     * @return
+     * @date 2014-2-27 下午10:38:06
+     * @author leo
+     */
+    public static NetProviderName getNetProviderName(Context context) {
+        String imsi = DeviceUtils.getIMSI(context);
+        if (!StringUtils.isEmpty(imsi)) {
+            // 因为移动网络编号46000下的IMSI已经用完,所以虚拟了一个46002编号，134/159号段使用了此编号
+            if (imsi.startsWith("46000") || imsi.startsWith("46002") || imsi.startsWith("46007")) {
+                return NetProviderName.chinaMobile;
+            } else if (imsi.startsWith("46001")) {
+                return NetProviderName.chinaUnicom;
+            } else if (imsi.startsWith("46003")) {
+                return NetProviderName.chinaTelecom;
+            } else {
+                return NetProviderName.other;
+            }
+        } else {
+            return NetProviderName.other;
+        }
+    }
+
+    /**
      * 获取ConnectivityManager
      */
     public static ConnectivityManager getConnManager(Context context) {
