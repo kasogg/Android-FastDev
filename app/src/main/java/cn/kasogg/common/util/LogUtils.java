@@ -10,64 +10,64 @@ package cn.kasogg.common.util;
 
 import android.util.Log;
 
-import static cn.kasogg.common.util.constants.Constants.LOG_OPEN;
+import static cn.kasogg.common.util.constants.UtilConstants.IS_LOG;
 
 public class LogUtils {
     private static String DEFAULT_TAG = "LOG";
 
-    public static void debug(Object o) {
-        debug(DEFAULT_TAG, o);
+    public static void d(Object o) {
+        d(DEFAULT_TAG, o);
     }
 
-    public static void info(Object o) {
-        info(DEFAULT_TAG, o);
+    public static void i(Object o) {
+        i(DEFAULT_TAG, o);
     }
 
-    public static void warn(Object o) {
-        warn(DEFAULT_TAG, o);
+    public static void w(Object o) {
+        w(DEFAULT_TAG, o);
     }
 
-    public static void error(Object o) {
-        error(DEFAULT_TAG, o);
+    public static void e(Object o) {
+        e(DEFAULT_TAG, o);
     }
 
-    public static void debug(String tag, Object o) {
-        if (LOG_OPEN)
+    public static void d(String tag, Object o) {
+        if (IS_LOG)
             Log.d(tag, o == null ? "" : o.toString());
     }
 
-    public static void info(String tag, Object o) {
-        if (LOG_OPEN)
+    public static void i(String tag, Object o) {
+        if (IS_LOG)
             Log.i(tag, o == null ? "" : o.toString());
     }
 
-    public static void warn(String tag, Object o) {
-        if (LOG_OPEN)
+    public static void w(String tag, Object o) {
+        if (IS_LOG)
             Log.w(tag, o == null ? "" : o.toString());
     }
 
-    public static void error(String tag, Object o) {
-        if (LOG_OPEN)
+    public static void e(String tag, Object o) {
+        if (IS_LOG)
             Log.e(tag, o == null ? "" : o.toString());
     }
 
-    public static void debug(Class<?> c, Object o) {
-        if (LOG_OPEN)
+    public static void d(Class<?> c, Object o) {
+        if (IS_LOG)
             Log.d(c.getSimpleName(), o == null ? "" : o.toString());
     }
 
-    public static void info(Class<?> c, Object o) {
-        if (LOG_OPEN)
+    public static void i(Class<?> c, Object o) {
+        if (IS_LOG)
             Log.i(c.getSimpleName(), o == null ? "" : o.toString());
     }
 
-    public static void warn(Class<?> c, Object o) {
-        if (LOG_OPEN)
+    public static void w(Class<?> c, Object o) {
+        if (IS_LOG)
             Log.w(c.getSimpleName(), o == null ? "" : o.toString());
     }
 
-    public static void error(Class<?> c, Object o) {
-        if (LOG_OPEN)
+    public static void e(Class<?> c, Object o) {
+        if (IS_LOG)
             Log.e(c.getSimpleName(), o == null ? "" : o.toString());
     }
 }
