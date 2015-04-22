@@ -2,6 +2,7 @@ package cn.kasogg.common.util;
 
 import android.annotation.SuppressLint;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,11 +13,11 @@ import java.util.Date;
  */
 public class TimeUtils {
 
-    public static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    public static final SimpleDateFormat DATE_FORMAT_DATE = new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat DEFAULT_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     private TimeUtils() {
-        throw new AssertionError();
+        throw new UnsupportedOperationException("Cannot be instantiated");
     }
 
     /**
@@ -31,13 +32,13 @@ public class TimeUtils {
     }
 
     /**
-     * long time to string, format is {@link #DEFAULT_DATE_FORMAT}
+     * long time to string, format is {@link #DEFAULT_DATETIME_FORMAT}
      *
      * @param timeInMillis
      * @return
      */
     public static String getTime(long timeInMillis) {
-        return getTime(timeInMillis, DEFAULT_DATE_FORMAT);
+        return getTime(timeInMillis, DEFAULT_DATETIME_FORMAT);
     }
 
     /**
@@ -50,7 +51,7 @@ public class TimeUtils {
     }
 
     /**
-     * get current time in milliseconds, format is {@link #DEFAULT_DATE_FORMAT}
+     * get current time in milliseconds, format is {@link #DEFAULT_DATETIME_FORMAT}
      *
      * @return
      */
@@ -65,6 +66,19 @@ public class TimeUtils {
      */
     public static String getCurrentTimeInString(SimpleDateFormat dateFormat) {
         return getTime(getCurrentTimeInLong(), dateFormat);
+    }
+
+    public static Date parseDate(String dateString, SimpleDateFormat dateFormat) {
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return new Date();
+        }
+    }
+
+    public static Date parseDate(String dateString) {
+        return parseDate(dateString, DEFAULT_DATETIME_FORMAT);
     }
 
     @SuppressLint("SimpleDateFormat")

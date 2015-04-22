@@ -17,6 +17,10 @@ import java.util.Enumeration;
 public class NetUtils {
     private static final String TAG = Network.class.getSimpleName();
 
+    private NetUtils() {
+        throw new UnsupportedOperationException("Cannot be instantiated");
+    }
+
     public enum NetType {
         None(1),
         Mobile(2),
@@ -88,8 +92,16 @@ public class NetUtils {
      * @return boolean 不管wifi，还是mobile net，只有当前在连接状态（可有效传输数据）才返回true,反之false。
      */
     public static boolean isConnected(Context context) {
-        NetworkInfo net = getConnManager(context).getActiveNetworkInfo();
-        return net != null && net.isConnected();
+        ConnectivityManager connectivity = getConnManager(context);
+        if (null != connectivity) {
+            NetworkInfo info = connectivity.getActiveNetworkInfo();
+            if (null != info && info.isConnected()) {
+                if (info.getState() == NetworkInfo.State.CONNECTED) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

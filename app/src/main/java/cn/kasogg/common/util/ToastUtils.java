@@ -11,7 +11,7 @@ import android.widget.Toast;
 public class ToastUtils {
 
     private ToastUtils() {
-        throw new AssertionError();
+        throw new UnsupportedOperationException("Cannot be instantiated");
     }
 
     public static void show(Context context, int resId) {

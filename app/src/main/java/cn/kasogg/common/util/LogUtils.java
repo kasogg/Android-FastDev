@@ -10,10 +10,13 @@ package cn.kasogg.common.util;
 
 import android.util.Log;
 
-import static cn.kasogg.common.util.constants.UtilConstants.IS_LOG;
-
 public class LogUtils {
+    public static boolean IS_LOG = true;
     private static String DEFAULT_TAG = "LOG";
+
+    private LogUtils() {
+        throw new UnsupportedOperationException("Cannot be instantiated");
+    }
 
     public static void d(Object o) {
         d(DEFAULT_TAG, o);

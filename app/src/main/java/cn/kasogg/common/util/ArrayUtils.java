@@ -21,7 +21,7 @@ package cn.kasogg.common.util;
 public class ArrayUtils {
 
     private ArrayUtils() {
-        throw new AssertionError();
+        throw new UnsupportedOperationException("Cannot be instantiated");
     }
 
     /**

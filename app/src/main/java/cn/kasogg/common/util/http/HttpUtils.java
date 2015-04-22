@@ -2,7 +2,6 @@ package cn.kasogg.common.util.http;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -48,7 +47,7 @@ public class HttpUtils {
      * @param params          请求的参数
      * @param responseHandler TextHttpResponseHandler,返回String
      */
-    public static void get(String url, RequestParams params, TextHttpResponseHandler responseHandler) {
+    public static void get(String url, RequestParams params, LoggableTextHttpResponseHandler responseHandler) {
         client.get(url, params, responseHandler);
     }
 
@@ -59,7 +58,7 @@ public class HttpUtils {
      * @param params          请求的参数
      * @param responseHandler TextHttpResponseHandler,返回String
      */
-    public static void post(String url, RequestParams params, TextHttpResponseHandler responseHandler) {
+    public static void post(String url, RequestParams params, LoggableTextHttpResponseHandler responseHandler) {
         client.post(url, params, responseHandler);
     }
 
@@ -71,7 +70,7 @@ public class HttpUtils {
      * @param file            请求的File
      * @param responseHandler TextHttpResponseHandler,返回String
      */
-    public static void uploadFile(String url, String key, File file, TextHttpResponseHandler responseHandler) throws FileNotFoundException {
+    public static void uploadFile(String url, String key, File file, LoggableTextHttpResponseHandler responseHandler) throws FileNotFoundException {
         RequestParams params = new RequestParams();
         params.put(key, file);
         client.post(url, params, responseHandler);
@@ -84,7 +83,7 @@ public class HttpUtils {
      * @param files           请求的key以及file集合
      * @param responseHandler TextHttpResponseHandler,返回String
      */
-    public static void uploadFiles(String url, Map<String, File> files, TextHttpResponseHandler responseHandler) throws FileNotFoundException {
+    public static void uploadFiles(String url, Map<String, File> files, LoggableTextHttpResponseHandler responseHandler) throws FileNotFoundException {
         RequestParams params = new RequestParams();
         for (String key : files.keySet()) {
             params.put(key, files.get(key));

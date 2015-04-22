@@ -8,7 +8,7 @@ package cn.kasogg.common.util;
 public class ObjectUtils {
 
     private ObjectUtils() {
-        throw new AssertionError();
+        throw new UnsupportedOperationException("Cannot be instantiated");
     }
 
     /**

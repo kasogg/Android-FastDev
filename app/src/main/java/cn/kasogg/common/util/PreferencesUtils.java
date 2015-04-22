@@ -33,7 +33,7 @@ public class PreferencesUtils {
     public static String PREFERENCE_NAME = "KasoGGCommon";
 
     private PreferencesUtils() {
-        throw new AssertionError();
+        throw new UnsupportedOperationException("Cannot be instantiated");
     }
 
     /**

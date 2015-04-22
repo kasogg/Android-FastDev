@@ -13,11 +13,6 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
-import android.widget.ImageView;
-
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -28,25 +23,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ImageUtils {
-    private volatile static ImageLoader mImageLoader;
 
     private ImageUtils() {
-        throw new AssertionError();
-    }
-
-    public static void init(Context context) {
-        mImageLoader = ImageLoader.getInstance();
-        if (!mImageLoader.isInited()) {
-            mImageLoader.init(ImageLoaderConfiguration.createDefault(context));
-        }
-    }
-
-    public static void displayImage(String uri, ImageView imageView) {
-        mImageLoader.displayImage(uri, imageView);
-    }
-
-    public static void displayImage(String uri, ImageView imageView, DisplayImageOptions options) {
-        mImageLoader.displayImage(uri, imageView, options);
+        throw new UnsupportedOperationException("Cannot be instantiated");
     }
 
     /**

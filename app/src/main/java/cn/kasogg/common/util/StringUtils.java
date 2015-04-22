@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class StringUtils {
 
     private StringUtils() {
-        throw new AssertionError();
+        throw new UnsupportedOperationException("Cannot be instantiated");
     }
 
     /**

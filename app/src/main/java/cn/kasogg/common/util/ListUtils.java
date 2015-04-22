@@ -18,7 +18,7 @@ public class ListUtils {
     public static final String DEFAULT_JOIN_SEPARATOR = ",";
 
     private ListUtils() {
-        throw new AssertionError();
+        throw new UnsupportedOperationException("Cannot be instantiated");
     }
 
     /**

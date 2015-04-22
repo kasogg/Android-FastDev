@@ -1,14 +1,18 @@
 package cn.kasogg.common.util;
 
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.text.TextUtils;
 
 import java.util.List;
 
 public class ApplicationUtils {
+    private ApplicationUtils() {
+        throw new UnsupportedOperationException("Cannot be instantiated");
+    }
+
     /**
      * 得到应用的版本号
      *
@@ -49,14 +53,30 @@ public class ApplicationUtils {
         return versionCode;
     }
 
-    public boolean isRunningForeground(Context context) {
+    public static boolean isRunningForeground(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> tasks = am.getRunningAppProcesses();
-
-        String currentPackageName = tasks.get(0).processName;
-        if (!TextUtils.isEmpty(currentPackageName) && currentPackageName.equals(context.getPackageName())) {
-            return true;
+        List<ActivityManager.RunningTaskInfo> taskList = am.getRunningTasks(1);
+        if (taskList != null && !taskList.isEmpty()) {
+            ComponentName componentName = taskList.get(0).topActivity;
+            if (componentName != null && componentName.getPackageName().equals(context.getPackageName())) {
+                return true;
+            }
         }
         return false;
+    }
+
+    // 获取第一次安装时间
+    public static String getFirstInstallTime(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        String firstInstallTimeString = "";
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            long firstInstallTime = packageInfo.firstInstallTime;//应用第一次安装的时间
+
+            firstInstallTimeString = TimeUtils.getTime(firstInstallTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return firstInstallTimeString;
     }
 }

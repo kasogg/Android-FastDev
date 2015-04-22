@@ -8,6 +8,9 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 public class DeviceUtils {
+    private DeviceUtils() {
+        throw new UnsupportedOperationException("Cannot be instantiated");
+    }
 
     /**
      * 获取手机的IMEI(International Mobile Equipment Identity) 	输入*#06#即可查询

@@ -1,4 +1,4 @@
-package cn.kasogg.common;
+package cn.kasogg.sample;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
