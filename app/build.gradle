@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "cn.kasogg.sample"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -37,22 +36,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'com.loopj.android:android-async-http:1.4.6'
-    compile 'com.alibaba:fastjson:1.2.5'
-    compile 'com.facebook.fresco:fresco:0.3.0+'
-    apt "org.androidannotations:androidannotations:3.2"
-    compile 'org.androidannotations:androidannotations-api:3.2'
-    compile 'de.greenrobot:eventbus:2.4.0'
-}
-
-apt {
-    arguments {
-        androidManifestFile variant.outputs[0].processResources.manifestFile
-        // if you have multiple outputs (when using splits), you may want to have other index than 0
-
-        resourcePackageName android.defaultConfig.applicationId
-    }
+    compile project(':booster')
 }

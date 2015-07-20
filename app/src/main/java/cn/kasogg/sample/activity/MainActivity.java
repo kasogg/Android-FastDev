@@ -1,18 +1,33 @@
 package cn.kasogg.sample.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
-import org.androidannotations.annotations.EActivity;
+import java.util.Map;
 
+import cn.kasogg.booster.util.LogUtils;
+import cn.kasogg.booster.util.http.HttpUtils;
+import cn.kasogg.booster.util.http.data.NetError;
+import cn.kasogg.booster.util.http.handler.StringResponseHandler;
 import cn.kasogg.sample.R;
 
-@EActivity(R.layout.activity_main)
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        HttpUtils.getInstance(this).get("http://www.baidu.com", new StringResponseHandler() {
+            @Override
+            public void onSuccess(String response, int statusCode, Map<String, String> headers) {
+                LogUtils.i(response);
+            }
+
+            @Override
+            public void onFailure(NetError error) {
+                LogUtils.i(error);
+            }
+        });
     }
 
 }
