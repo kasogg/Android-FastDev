@@ -8,9 +8,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.Volley;
+import com.squareup.okhttp.OkHttpClient;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
@@ -23,6 +22,7 @@ public class HttpUtils {
     private static HttpUtils httpUtils;
     private static Context mContext;
     private static RequestQueue mRequestQueue;
+    private static OkHttpClient mClient;
 
     private HttpUtils() {
     }
@@ -37,9 +37,16 @@ public class HttpUtils {
 
     private RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(mContext.getApplicationContext());
+            mRequestQueue = Volley.newRequestQueue(mContext.getApplicationContext(), new OkHttpStack(getOkHttpClient()));
         }
         return mRequestQueue;
+    }
+
+    private OkHttpClient getOkHttpClient() {
+        if (mClient == null) {
+            mClient = new OkHttpClient();
+        }
+        return mClient;
     }
 
     private void sendRequest(int method, String url, Map<String, String> params, final StringResponseHandler handler) {
@@ -76,9 +83,5 @@ public class HttpUtils {
 
     public void post(String url, Map<String, String> params, final StringResponseHandler handler) {
         sendRequest(Request.Method.POST, url, params, handler);
-    }
-
-    public void uploadFile(String url, String key, File file) throws FileNotFoundException {
-
     }
 }
