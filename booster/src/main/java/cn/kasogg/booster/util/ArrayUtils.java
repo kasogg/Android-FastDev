@@ -117,7 +117,7 @@ public class ArrayUtils {
      * @see {@link cn.kasogg.booster.util.ArrayUtils#getLast(Object[], Object, Object, boolean)} defaultValue is null
      */
     public static <V> V getLast(V[] sourceArray, V value, boolean isCircle) {
-        return getLast(sourceArray, value, null, isCircle);
+        return getLast(sourceArray, value, null, true);
     }
 
     /**

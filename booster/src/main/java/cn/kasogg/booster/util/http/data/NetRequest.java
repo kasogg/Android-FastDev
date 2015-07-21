@@ -18,10 +18,11 @@ import java.util.Map;
  */
 public class NetRequest extends Request<NetResponse> {
     private final Listener<NetResponse> mListener;
-    Map<String, String> mParams;
+    private final Map<String, String> mParams;
 
-    public NetRequest(int method, String url, Map<String, String> params, Listener<NetResponse> listener, ErrorListener errorListener) {
+    public NetRequest(int method, String url, Map<String, String> params, Listener<NetResponse> listener, ErrorListener errorListener, Object tag) {
         super(method, url, errorListener);
+        super.setTag(tag);
         mListener = listener;
         mParams = params;
     }

@@ -73,8 +73,7 @@ public class ScreenUtils {
         Bitmap bmp = view.getDrawingCache();
         int width = getScreenWidth(activity);
         int height = getScreenHeight(activity);
-        Bitmap bp = null;
-        bp = Bitmap.createBitmap(bmp, 0, 0, width, height);
+        Bitmap bp = Bitmap.createBitmap(bmp, 0, 0, width, height);
         view.destroyDrawingCache();
         return bp;
 
@@ -97,8 +96,7 @@ public class ScreenUtils {
 
         int width = getScreenWidth(activity);
         int height = getScreenHeight(activity);
-        Bitmap bp = null;
-        bp = Bitmap.createBitmap(bmp, 0, statusBarHeight, width, height - statusBarHeight);
+        Bitmap bp = Bitmap.createBitmap(bmp, 0, statusBarHeight, width, height - statusBarHeight);
         view.destroyDrawingCache();
         return bp;
     }

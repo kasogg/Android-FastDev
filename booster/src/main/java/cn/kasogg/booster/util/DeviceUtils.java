@@ -56,10 +56,7 @@ public class DeviceUtils {
     public static boolean isGPSEnable(Context context) {
         String str = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
         Log.v("GPS", str);
-        if (!StringUtils.isEmpty(str)) {
-            return str.contains("gps");
-        }
-        return false;
+        return !StringUtils.isEmpty(str) && str.contains("gps");
     }
 
     /**

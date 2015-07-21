@@ -70,8 +70,8 @@ public class SmsReceiver extends BroadcastReceiver {
         }
     }
 
-    public static interface SmsListener {
-        public void onMessage(String msg);
+    public interface SmsListener {
+        void onMessage(String msg);
     }
 
     /**

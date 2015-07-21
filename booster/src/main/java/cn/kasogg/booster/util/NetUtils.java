@@ -34,7 +34,7 @@ public class NetUtils {
         public int value;
     }
 
-    public static enum NetProviderName {
+    public enum NetProviderName {
         chinaMobile("中国移动"),
         chinaUnicom("中国联通"),
         chinaTelecom("中国电信"),
@@ -43,7 +43,7 @@ public class NetUtils {
 
         private String text;
 
-        private NetProviderName(String text) {
+        NetProviderName(String text) {
             this.text = text;
         }
 
@@ -270,11 +270,11 @@ public class NetUtils {
                 while (enumIpAddr.hasMoreElements()) {
                     InetAddress inetAddress = enumIpAddr.nextElement();
                     if (!inetAddress.isLoopbackAddress() && InetAddressUtils.isIPv4Address(inetAddress.getHostAddress())) {
-                        return inetAddress.getHostAddress().toString();
+                        return inetAddress.getHostAddress();
                     }
                 }
             }
-        } catch (SocketException ex) {
+        } catch (SocketException ignored) {
         }
         return null;
     }

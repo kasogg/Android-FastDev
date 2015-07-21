@@ -11,8 +11,8 @@ package cn.kasogg.booster.util;
 import android.util.Log;
 
 public class LogUtils {
-    public static boolean IS_LOG = true;
-    private static String DEFAULT_TAG = "LOG";
+    public static final boolean IS_LOG = true;
+    private static final String DEFAULT_TAG = "LOG";
 
     private LogUtils() {
         throw new UnsupportedOperationException("Cannot be instantiated");

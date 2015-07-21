@@ -101,8 +101,7 @@ public class StringUtils {
         }
 
         char c = str.charAt(0);
-        return (!Character.isLetter(c) || Character.isUpperCase(c)) ? str : new StringBuilder(str.length())
-                .append(Character.toUpperCase(c)).append(str.substring(1)).toString();
+        return (!Character.isLetter(c) || Character.isUpperCase(c)) ? str : String.valueOf(Character.toUpperCase(c)) + str.substring(1);
     }
 
     /**

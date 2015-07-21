@@ -30,7 +30,7 @@ import android.content.SharedPreferences;
  */
 public class PreferencesUtils {
 
-    public static String PREFERENCE_NAME = "KasoGGCommon";
+    public static final String PREFERENCE_NAME = "KasoGGCommon";
 
     private PreferencesUtils() {
         throw new UnsupportedOperationException("Cannot be instantiated");

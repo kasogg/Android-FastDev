@@ -70,7 +70,7 @@ public class FileUtils {
         try {
             InputStreamReader is = new InputStreamReader(new FileInputStream(file), charsetName);
             reader = new BufferedReader(is);
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
                 if (!fileContent.toString().equals("")) {
                     fileContent.append("\r\n");
@@ -240,7 +240,7 @@ public class FileUtils {
             makeDirs(file.getAbsolutePath());
             o = new FileOutputStream(file, append);
             byte data[] = new byte[1024];
-            int length = -1;
+            int length;
             while ((length = stream.read(data)) != -1) {
                 o.write(data, 0, length);
             }
@@ -271,7 +271,7 @@ public class FileUtils {
      * @throws RuntimeException if an error occurs while operator FileOutputStream
      */
     public static boolean copyFile(String sourceFilePath, String destFilePath) {
-        InputStream inputStream = null;
+        InputStream inputStream;
         try {
             inputStream = new FileInputStream(sourceFilePath);
         } catch (FileNotFoundException e) {
@@ -299,7 +299,7 @@ public class FileUtils {
         try {
             InputStreamReader is = new InputStreamReader(new FileInputStream(file), charsetName);
             reader = new BufferedReader(is);
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
                 fileContent.add(line);
             }
@@ -479,7 +479,7 @@ public class FileUtils {
         }
 
         File folder = new File(folderName);
-        return (folder.exists() && folder.isDirectory()) ? true : folder.mkdirs();
+        return (folder.exists() && folder.isDirectory()) || folder.mkdirs();
     }
 
     /**

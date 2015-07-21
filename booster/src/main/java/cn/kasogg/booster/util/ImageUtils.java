@@ -49,11 +49,10 @@ public class ImageUtils {
         final Paint paint = new Paint();
         final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
         final RectF rectF = new RectF(rect);
-        final float roundPx = pixels;
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        canvas.drawRoundRect(rectF, (float) pixels, (float) pixels, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return output;
@@ -64,8 +63,7 @@ public class ImageUtils {
      */
     public static Uri getDrawableUri(Context mContext, int id) {
         Resources r = mContext.getResources();
-        Uri uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + r.getResourcePackageName(id) + "/" + r.getResourceTypeName(id) + "/" + r.getResourceEntryName(id));
-        return uri;
+        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + r.getResourcePackageName(id) + "/" + r.getResourceTypeName(id) + "/" + r.getResourceEntryName(id));
     }
 
     public static void saveBitmap(File f, Bitmap mBitmap) {
@@ -83,7 +81,6 @@ public class ImageUtils {
                 if (bos != null) {
                     bos.close();
                 }
-                ;
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

@@ -12,7 +12,7 @@ public class ActivityManager {
     /**
      * 保存所有Activity
      */
-    private volatile Stack<Activity> activityStack = new Stack<Activity>();
+    private final Stack<Activity> activityStack = new Stack<Activity>();
 
     private static volatile ActivityManager instance;
 

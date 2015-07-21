@@ -7,7 +7,7 @@ import android.content.IntentFilter;
 import android.util.Log;
 
 public class ScreenReveiver extends BroadcastReceiver {
-    private String TAG = "ScreenActionReceiver";
+    private final String TAG = "ScreenActionReceiver";
     private ScreenListener screenListener;
 
     public ScreenReveiver() {
@@ -52,10 +52,10 @@ public class ScreenReveiver extends BroadcastReceiver {
         }
     }
 
-    public static interface ScreenListener {
-        public void screenOn();
+    public interface ScreenListener {
+        void screenOn();
 
-        public void screenOff();
+        void screenOff();
     }
 
 }

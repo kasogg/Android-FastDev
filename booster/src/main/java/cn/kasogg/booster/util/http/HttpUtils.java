@@ -35,21 +35,7 @@ public class HttpUtils {
         return httpUtils;
     }
 
-    private RequestQueue getRequestQueue() {
-        if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(mContext.getApplicationContext(), new OkHttpStack(getOkHttpClient()));
-        }
-        return mRequestQueue;
-    }
-
-    private OkHttpClient getOkHttpClient() {
-        if (mClient == null) {
-            mClient = new OkHttpClient();
-        }
-        return mClient;
-    }
-
-    private void sendRequest(int method, String url, Map<String, String> params, final StringResponseHandler handler) {
+    private void sendRequest(int method, String url, Map<String, String> params, final StringResponseHandler handler, Object tag) {
         Request request = new NetRequest(method, url, params, new Response.Listener<NetResponse>() {
             @Override
             public void onResponse(NetResponse response) {
@@ -69,19 +55,46 @@ public class HttpUtils {
                 }
                 handler.onFailure(netError);
             }
-        });
+        }, tag);
         getRequestQueue().add(request);
     }
 
-    public void get(String url, Map<String, String> params, final StringResponseHandler handler) {
-        sendRequest(Request.Method.GET, url, params, handler);
+    public void get(String url, Map<String, String> params, final StringResponseHandler handler, Object tag) {
+        sendRequest(Request.Method.GET, url, params, handler, tag);
+    }
+
+    public void get(String url, final StringResponseHandler handler, Object tag) {
+        get(url, null, handler, tag);
     }
 
     public void get(String url, final StringResponseHandler handler) {
-        get(url, null, handler);
+        get(url, null, handler, null);
+    }
+
+    public void post(String url, Map<String, String> params, final StringResponseHandler handler, Object tag) {
+        sendRequest(Request.Method.POST, url, params, handler, tag);
     }
 
     public void post(String url, Map<String, String> params, final StringResponseHandler handler) {
-        sendRequest(Request.Method.POST, url, params, handler);
+        sendRequest(Request.Method.POST, url, params, handler, null);
     }
+
+    public void cancelAll(Object tag) {
+        getRequestQueue().cancelAll(tag);
+    }
+
+    private RequestQueue getRequestQueue() {
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(mContext.getApplicationContext(), new OkHttpStack(getOkHttpClient()));
+        }
+        return mRequestQueue;
+    }
+
+    private OkHttpClient getOkHttpClient() {
+        if (mClient == null) {
+            mClient = new OkHttpClient();
+        }
+        return mClient;
+    }
+
 }

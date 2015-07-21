@@ -87,7 +87,7 @@ public class TimeUtils {
         long minute = millSecond * 60;
         long hour = minute * 60;
         long day = hour * 24;
-        String timeString = "";
+        String timeString;
         long cha = System.currentTimeMillis() - time;
         if (cha == 0) {
             timeString = "刚刚";
