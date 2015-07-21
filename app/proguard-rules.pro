@@ -83,6 +83,13 @@
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.** { *; }
 
+# Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+    **[] $VALUES;
+    public *;
+}
+
 # Fresco
 -keep class com.facebook.drawee.** {*;}
 -dontwarn com.facebook.drawee.**

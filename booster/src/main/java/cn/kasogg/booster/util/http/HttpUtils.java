@@ -19,7 +19,7 @@ import cn.kasogg.booster.util.http.data.NetResponse;
 import cn.kasogg.booster.util.http.handler.StringResponseHandler;
 
 public class HttpUtils {
-    private static HttpUtils httpUtils;
+    private static HttpUtils mHttpUtils;
     private static Context mContext;
     private static RequestQueue mRequestQueue;
     private static OkHttpClient mClient;
@@ -28,11 +28,11 @@ public class HttpUtils {
     }
 
     public static synchronized HttpUtils getInstance(Context context) {
-        if (httpUtils == null) {
-            httpUtils = new HttpUtils();
+        if (mHttpUtils == null) {
+            mHttpUtils = new HttpUtils();
             mContext = context;
         }
-        return httpUtils;
+        return mHttpUtils;
     }
 
     private void sendRequest(int method, String url, Map<String, String> params, final StringResponseHandler handler, Object tag) {
