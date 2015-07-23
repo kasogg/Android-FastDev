@@ -13,6 +13,7 @@ import com.squareup.okhttp.OkHttpClient;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
+import cn.kasogg.booster.util.LogUtils;
 import cn.kasogg.booster.util.http.data.NetError;
 import cn.kasogg.booster.util.http.data.NetRequest;
 import cn.kasogg.booster.util.http.data.NetResponse;
@@ -39,20 +40,23 @@ public class HttpUtils {
         Request request = new NetRequest(method, url, params, new Response.Listener<NetResponse>() {
             @Override
             public void onResponse(NetResponse response) {
+                LogUtils.i(response.responseStr);
                 handler.onSuccess(response.responseStr, response.statusCode, response.headers);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 NetError netError = new NetError();
-                netError.statusCode = error.networkResponse.statusCode;
-                netError.errorMessage = error.getMessage();
-                netError.headers = error.networkResponse.headers;
                 try {
+                    netError.errorMessage = error.toString();
+                    netError.statusCode = error.networkResponse.statusCode;
+                    netError.headers = error.networkResponse.headers;
                     netError.responseStr = new String(error.networkResponse.data, HttpHeaderParser.parseCharset(error.networkResponse.headers));
                 } catch (UnsupportedEncodingException e) {
                     netError.responseStr = new String(error.networkResponse.data);
+                } catch (Exception e) {
                 }
+                LogUtils.e(netError);
                 handler.onFailure(netError);
             }
         }, tag);
