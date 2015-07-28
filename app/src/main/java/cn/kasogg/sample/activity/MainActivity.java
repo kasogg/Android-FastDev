@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import java.util.Map;
 
-import cn.kasogg.booster.util.LogUtils;
 import cn.kasogg.booster.util.http.HttpUtils;
 import cn.kasogg.booster.util.http.data.NetError;
 import cn.kasogg.booster.util.http.handler.StringResponseHandler;
@@ -20,12 +19,10 @@ public class MainActivity extends Activity {
         HttpUtils.getInstance(this).get("http://www.baidu.com", new StringResponseHandler() {
             @Override
             public void onSuccess(String response, int statusCode, Map<String, String> headers) {
-                LogUtils.i(response);
             }
 
             @Override
             public void onFailure(NetError error) {
-                LogUtils.i(error);
             }
         });
     }
