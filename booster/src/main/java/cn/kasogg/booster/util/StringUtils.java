@@ -116,7 +116,7 @@ public class StringUtils {
      *
      * @param str
      * @return
-     * @throws java.io.UnsupportedEncodingException if an error occurs
+     * @throws UnsupportedEncodingException if an error occurs
      */
     public static String utf8Encode(String str) {
         if (!isEmpty(str) && str.getBytes().length != str.length()) {

@@ -71,9 +71,17 @@
 -keep class android.support.** {*;}
 -dontwarn android.support.**
 
-# Asyns-Http
--keep class com.loopj.android.http.** {*;}
--dontwarn com.loopj.android.http.**
+# OKHttp
+-keep class okio.** { *; }
+-dontwarn okio.**
+-keep class com.squareup.okhttp.** { *; }
+-dontwarn com.squareup.okhttp.**
+-keep interface com.squareup.okhttp.** { *; }
+
+-dontwarn java.nio.file.Files
+-dontwarn java.nio.file.Path
+-dontwarn java.nio.file.OpenOption
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 
 # FastJson
 -keep class com.alibaba.fastjson.** { *; }
@@ -93,6 +101,17 @@
 # Fresco
 -keep class com.facebook.drawee.** {*;}
 -dontwarn com.facebook.drawee.**
+
+# ButterKnife
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder { *; }
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
 
 # Android Annotations
 -keep class org.androidannotations.** {*;}

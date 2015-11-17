@@ -32,7 +32,7 @@ public class ListUtils {
      *
      * @param <V>
      * @param sourceList
-     * @return if list is null or empty, return 0, else return {@link java.util.List#size()}.
+     * @return if list is null or empty, return 0, else return {@link List#size()}.
      */
     public static <V> int getSize(List<V> sourceList) {
         return sourceList == null ? 0 : sourceList.size();
@@ -211,7 +211,7 @@ public class ListUtils {
      * @return <ul>
      * <li>if sourceList is null, return false</li>
      * <li>if value is null, return false</li>
-     * <li>return {@link java.util.List#add(Object)}</li>
+     * <li>return {@link List#add(Object)}</li>
      * </ul>
      */
     public static <V> boolean addListNotNullValue(List<V> sourceList, V value) {

@@ -9,7 +9,7 @@ import cn.kasogg.booster.util.http.data.NetError;
  * Date:   2015-07-17 15:34
  */
 public interface StringResponseHandler {
-    void onSuccess(String response, int statusCode, Map<String, String> headers);
+    void onSuccess(String responseStr, int statusCode, Map<String, String> headers);
 
     void onFailure(NetError error);
 }

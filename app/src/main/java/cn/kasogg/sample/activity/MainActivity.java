@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        HttpUtils.getInstance(this).get("http://www.baidu.com", new StringResponseHandler() {
+        HttpUtils.get("http://www.baidu.com", new StringResponseHandler() {
             @Override
             public void onSuccess(String response, int statusCode, Map<String, String> headers) {
             }

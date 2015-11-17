@@ -2,11 +2,8 @@ package cn.kasogg.booster.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
 import android.util.Log;
-
-import org.apache.http.conn.util.InetAddressUtils;
 
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -15,7 +12,7 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 public class NetUtils {
-    private static final String TAG = Network.class.getSimpleName();
+    private static final String TAG = NetUtils.class.getSimpleName();
 
     private NetUtils() {
         throw new UnsupportedOperationException("Cannot be instantiated");
@@ -78,30 +75,26 @@ public class NetUtils {
         }
     }
 
+    public static NetType getConnectedType(Context context) {
+        NetworkInfo net = getConnManager(context).getActiveNetworkInfo();
+        if (net != null) {
+            switch (net.getType()) {
+                case ConnectivityManager.TYPE_WIFI:
+                    return NetType.Wifi;
+                case ConnectivityManager.TYPE_MOBILE:
+                    return NetType.Mobile;
+                default:
+                    return NetType.Other;
+            }
+        }
+        return NetType.None;
+    }
+
     /**
      * 获取ConnectivityManager
      */
     public static ConnectivityManager getConnManager(Context context) {
         return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-    }
-
-    /**
-     * 判断网络连接是否有效（此时可传输数据）。
-     *
-     * @param context
-     * @return boolean 不管wifi，还是mobile net，只有当前在连接状态（可有效传输数据）才返回true,反之false。
-     */
-    public static boolean isConnected(Context context) {
-        ConnectivityManager connectivity = getConnManager(context);
-        if (null != connectivity) {
-            NetworkInfo info = connectivity.getActiveNetworkInfo();
-            if (null != info && info.isConnected()) {
-                if (info.getState() == NetworkInfo.State.CONNECTED) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**
@@ -122,19 +115,21 @@ public class NetUtils {
         return false;
     }
 
-    public static NetType getConnectedType(Context context) {
-        NetworkInfo net = getConnManager(context).getActiveNetworkInfo();
-        if (net != null) {
-            switch (net.getType()) {
-                case ConnectivityManager.TYPE_WIFI:
-                    return NetType.Wifi;
-                case ConnectivityManager.TYPE_MOBILE:
-                    return NetType.Mobile;
-                default:
-                    return NetType.Other;
+    /**
+     * 判断网络连接是否有效（此时可传输数据）。
+     *
+     * @param context
+     * @return boolean 不管wifi，还是mobile net，只有当前在连接状态（可有效传输数据）才返回true,反之false。
+     */
+    public static boolean isConnected(Context context) {
+        ConnectivityManager connectivity = getConnManager(context);
+        if (null != connectivity) {
+            NetworkInfo info = connectivity.getActiveNetworkInfo();
+            if (null != info && info.isConnected() && info.getState() == NetworkInfo.State.CONNECTED) {
+                return isWifiConnected(context) || isMobileConnected(context);
             }
         }
-        return NetType.None;
+        return false;
     }
 
     /**
@@ -269,8 +264,8 @@ public class NetUtils {
                 Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses();
                 while (enumIpAddr.hasMoreElements()) {
                     InetAddress inetAddress = enumIpAddr.nextElement();
-                    if (!inetAddress.isLoopbackAddress() && InetAddressUtils.isIPv4Address(inetAddress.getHostAddress())) {
-                        return inetAddress.getHostAddress();
+                    if (!inetAddress.isLoopbackAddress()) {
+                        return inetAddress.getHostAddress().toString();
                     }
                 }
             }

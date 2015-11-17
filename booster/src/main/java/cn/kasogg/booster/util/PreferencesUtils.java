@@ -11,19 +11,19 @@ import android.content.SharedPreferences;
  * </ul>
  * <ul>
  * <strong>Put Value</strong>
- * <li>put string {@link #putString(android.content.Context, String, String)}</li>
- * <li>put int {@link #putInt(android.content.Context, String, int)}</li>
- * <li>put long {@link #putLong(android.content.Context, String, long)}</li>
- * <li>put float {@link #putFloat(android.content.Context, String, float)}</li>
- * <li>put boolean {@link #putBoolean(android.content.Context, String, boolean)}</li>
+ * <li>put string {@link #putString(Context, String, String)}</li>
+ * <li>put int {@link #putInt(Context, String, int)}</li>
+ * <li>put long {@link #putLong(Context, String, long)}</li>
+ * <li>put float {@link #putFloat(Context, String, float)}</li>
+ * <li>put boolean {@link #putBoolean(Context, String, boolean)}</li>
  * </ul>
  * <ul>
  * <strong>Get Value</strong>
- * <li>get string {@link #getString(android.content.Context, String)}, {@link #getString(android.content.Context, String, String)}</li>
- * <li>get int {@link #getInt(android.content.Context, String)}, {@link #getInt(android.content.Context, String, int)}</li>
- * <li>get long {@link #getLong(android.content.Context, String)}, {@link #getLong(android.content.Context, String, long)}</li>
- * <li>get float {@link #getFloat(android.content.Context, String)}, {@link #getFloat(android.content.Context, String, float)}</li>
- * <li>get boolean {@link #getBoolean(android.content.Context, String)}, {@link #getBoolean(android.content.Context, String, boolean)}</li>
+ * <li>get string {@link #getString(Context, String)}, {@link #getString(Context, String, String)}</li>
+ * <li>get int {@link #getInt(Context, String)}, {@link #getInt(Context, String, int)}</li>
+ * <li>get long {@link #getLong(Context, String)}, {@link #getLong(Context, String, long)}</li>
+ * <li>get float {@link #getFloat(Context, String)}, {@link #getFloat(Context, String, float)}</li>
+ * <li>get boolean {@link #getBoolean(Context, String)}, {@link #getBoolean(Context, String, boolean)}</li>
  * </ul>
  *
  * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2013-3-6
@@ -58,7 +58,7 @@ public class PreferencesUtils {
      * @param key     The name of the preference to retrieve
      * @return The preference value if it exists, or null. Throws ClassCastException if there is a preference with this
      * name that is not a string
-     * @see #getString(android.content.Context, String, String)
+     * @see #getString(Context, String, String)
      */
     public static String getString(Context context, String key) {
         return getString(context, key, null);
@@ -100,7 +100,7 @@ public class PreferencesUtils {
      * @param key     The name of the preference to retrieve
      * @return The preference value if it exists, or -1. Throws ClassCastException if there is a preference with this
      * name that is not a int
-     * @see #getInt(android.content.Context, String, int)
+     * @see #getInt(Context, String, int)
      */
     public static int getInt(Context context, String key) {
         return getInt(context, key, -1);
@@ -142,7 +142,7 @@ public class PreferencesUtils {
      * @param key     The name of the preference to retrieve
      * @return The preference value if it exists, or -1. Throws ClassCastException if there is a preference with this
      * name that is not a long
-     * @see #getLong(android.content.Context, String, long)
+     * @see #getLong(Context, String, long)
      */
     public static long getLong(Context context, String key) {
         return getLong(context, key, -1);
@@ -184,7 +184,7 @@ public class PreferencesUtils {
      * @param key     The name of the preference to retrieve
      * @return The preference value if it exists, or -1. Throws ClassCastException if there is a preference with this
      * name that is not a float
-     * @see #getFloat(android.content.Context, String, float)
+     * @see #getFloat(Context, String, float)
      */
     public static float getFloat(Context context, String key) {
         return getFloat(context, key, -1);
@@ -226,7 +226,7 @@ public class PreferencesUtils {
      * @param key     The name of the preference to retrieve
      * @return The preference value if it exists, or false. Throws ClassCastException if there is a preference with this
      * name that is not a boolean
-     * @see #getBoolean(android.content.Context, String, boolean)
+     * @see #getBoolean(Context, String, boolean)
      */
     public static boolean getBoolean(Context context, String key) {
         return getBoolean(context, key, false);

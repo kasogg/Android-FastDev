@@ -20,12 +20,12 @@ import java.util.List;
  * <li>{@link #readFile(String, String)} read file</li>
  * <li>{@link #writeFile(String, String, boolean)} write file from String</li>
  * <li>{@link #writeFile(String, String)} write file from String</li>
- * <li>{@link #writeFile(String, java.util.List, boolean)} write file from String List</li>
- * <li>{@link #writeFile(String, java.util.List)} write file from String List</li>
- * <li>{@link #writeFile(String, java.io.InputStream)} write file</li>
- * <li>{@link #writeFile(String, java.io.InputStream, boolean)} write file</li>
- * <li>{@link #writeFile(java.io.File, java.io.InputStream)} write file</li>
- * <li>{@link #writeFile(java.io.File, java.io.InputStream, boolean)} write file</li>
+ * <li>{@link #writeFile(String, List, boolean)} write file from String List</li>
+ * <li>{@link #writeFile(String, List)} write file from String List</li>
+ * <li>{@link #writeFile(String, InputStream)} write file</li>
+ * <li>{@link #writeFile(String, InputStream, boolean)} write file</li>
+ * <li>{@link #writeFile(File, InputStream)} write file</li>
+ * <li>{@link #writeFile(File, InputStream, boolean)} write file</li>
  * </ul>
  * <ul>
  * Operate file
@@ -194,7 +194,7 @@ public class FileUtils {
      * @param filePath
      * @param stream
      * @return
-     * @see {@link #writeFile(String, java.io.InputStream, boolean)}
+     * @see {@link #writeFile(String, InputStream, boolean)}
      */
     public static boolean writeFile(String filePath, InputStream stream) {
         return writeFile(filePath, stream, false);
@@ -219,7 +219,7 @@ public class FileUtils {
      * @param file
      * @param stream
      * @return
-     * @see {@link #writeFile(java.io.File, java.io.InputStream, boolean)}
+     * @see {@link #writeFile(File, InputStream, boolean)}
      */
     public static boolean writeFile(File file, InputStream stream) {
         return writeFile(file, stream, false);
@@ -469,7 +469,7 @@ public class FileUtils {
      * <ul>
      * <li>if {@link cn.kasogg.booster.util.FileUtils#getFolderName(String)} return null, return false</li>
      * <li>if target directory already exists, return true</li>
-     * <li>return {@link java.io.File#mkdirs()}</li>
+     * <li>return {@link File#mkdirs()}</li>
      * </ul>
      */
     public static boolean makeDirs(String filePath) {

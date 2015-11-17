@@ -9,9 +9,19 @@ import android.widget.Toast;
  * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2013-12-9
  */
 public class ToastUtils {
+    static Toast toast;
 
     private ToastUtils() {
         throw new UnsupportedOperationException("Cannot be instantiated");
+    }
+
+    public static void show(Context context, CharSequence text, int duration) {
+        if (toast != null) {
+            toast.cancel();
+            toast = null;
+        }
+        toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
     public static void show(Context context, int resId) {
@@ -26,9 +36,7 @@ public class ToastUtils {
         show(context, text, Toast.LENGTH_SHORT);
     }
 
-    public static void show(Context context, CharSequence text, int duration) {
-        Toast.makeText(context, text, duration).show();
-    }
+
 
     public static void show(Context context, int resId, Object... args) {
         show(context, String.format(context.getResources().getString(resId), args), Toast.LENGTH_SHORT);

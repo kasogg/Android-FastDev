@@ -66,11 +66,9 @@ public class ActivityManager {
         }
 
         for (Activity activity : activityStack) {
-            if (null == activity || activity.getClass().equals(cls)) {
-                continue;
+            if (null != activity && activity.getClass().equals(cls)) {
+                activity.finish();
             }
-
-            activity.finish();
         }
         LogUtils.d(ActivityManager.class, "activity num is : " + activityStack.size());
     }
@@ -108,4 +106,18 @@ public class ActivityManager {
         Intent intent = new Intent(curActivity, activity);
         curActivity.startActivity(intent);
     }
+
+    public Activity getActivity(Class cls) {
+        if (null == cls) {
+            LogUtils.d(ActivityManager.class, "cls is null");
+            return null;
+        }
+        for (Activity activity : activityStack) {
+            if (null != activity && activity.getClass().equals(cls)) {
+                return activity;
+            }
+        }
+        return null;
+    }
+
 }
