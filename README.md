@@ -2,7 +2,7 @@
 自己开发常用的一些第三方类库和工具类的集合，方便快速开发。
 
 ## 工具版本
-* Android Studio 1.5
+* Android Studio 2.0
 * Gradle 2.8
 * Android SDK 6.0(API 23)
 
