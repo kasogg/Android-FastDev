@@ -31,7 +31,7 @@ public class PostStringCall extends OKHttpRequestCall {
 
     public Request buildRequest() {
         Request.Builder builder = new Request.Builder();
-        builder.url(url).tag(tag).get();
+        builder.url(url).tag(tag).post(buildRequestBody());
         if (headers != null && headers.size() > 0) {
             builder.headers(Headers.of(headers));
         }
