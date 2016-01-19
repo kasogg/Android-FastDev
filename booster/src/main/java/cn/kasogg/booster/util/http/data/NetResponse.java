@@ -9,6 +9,6 @@ import java.util.Map;
 public class NetResponse {
     public int statusCode;
     public String responseStr;
-    public byte[] responseBytes;
+    public byte[] responseBody;
     public Map<String, String> headers;
 }

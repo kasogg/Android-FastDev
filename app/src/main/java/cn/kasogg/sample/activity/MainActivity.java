@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import java.util.Map;
 
+import cn.kasogg.booster.util.LogUtils;
 import cn.kasogg.booster.util.http.HttpUtils;
 import cn.kasogg.booster.util.http.data.NetError;
 import cn.kasogg.booster.util.http.handler.StringResponseHandler;
@@ -16,9 +17,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        HttpUtils.get("http://www.baidu.com", new StringResponseHandler() {
+        HttpUtils.get().url("https://www.baidu.com").build().execute(new StringResponseHandler() {
             @Override
-            public void onSuccess(String response, int statusCode, Map<String, String> headers) {
+            public void onSuccess(String responseStr, int statusCode, Map<String, String> headers) {
+                LogUtils.i(responseStr);
             }
 
             @Override

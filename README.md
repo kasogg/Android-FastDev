@@ -7,7 +7,7 @@
 * Android SDK 6.0(API 23)
 
 包含以下类库：
-* [OKHttp](https://github.com/square/okhttp)
+* [OKHttp3](https://github.com/square/okhttp)
 * [Glide](https://github.com/bumptech/glide)
 * [FastJson](https://github.com/alibaba/fastjson)
 * [EventBus](https://github.com/greenrobot/EventBus)

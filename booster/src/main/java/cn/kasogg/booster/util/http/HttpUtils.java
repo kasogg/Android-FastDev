@@ -1,107 +1,81 @@
 package cn.kasogg.booster.util.http;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.Headers;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.MultipartBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
-
-import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.FileNameMap;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import cn.kasogg.booster.util.LogUtils;
+import cn.kasogg.booster.util.http.builder.GetBuilder;
+import cn.kasogg.booster.util.http.builder.PostFormBuilder;
+import cn.kasogg.booster.util.http.builder.PostStringBuilder;
 import cn.kasogg.booster.util.http.data.NetError;
-import cn.kasogg.booster.util.http.handler.StringResponseHandler;
+import cn.kasogg.booster.util.http.data.NetResponse;
+import cn.kasogg.booster.util.http.handler.OKHttpResponseHandler;
+import cn.kasogg.booster.util.http.handler.ResponseHandler;
+import cn.kasogg.booster.util.http.request.OKHttpRequestCall;
+import cn.kasogg.booster.util.http.request.RequestCall;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
+/**
+ * Author: KasoGG
+ * Date:   2016-01-18 16:50
+ */
 public class HttpUtils {
-    public static final String CHARSET_UTF8 = "UTF-8";
-    public static final String METHOD_GET = "GET";
-    public static final String METHOD_POST = "POST";
-
-    private static Context mContext;
-    private static OkHttpClient mClient;
-    private static Handler mHandler;
+    private OkHttpClient mClient;
+    private Handler mHandler;
+    private static HttpUtils mInstance;
 
     private HttpUtils() {
-    }
-
-    public static void init(Context context) {
-        mContext = context;
         mHandler = new Handler(Looper.getMainLooper());
     }
 
-    private static void sendRequest(String method, String url, Map<String, String> params, final Map<String, String> headers, Object tag, final StringResponseHandler handler) {
-        Request.Builder builder = new Request.Builder();
-        // Set method & params
-        if ("GET".equals(method)) {
-            builder.get();
-            if (params != null && params.size() > 0) {
-                url = url + "?" + encodeParameters(params);
-            }
-        } else {
-            if (params != null && params.size() > 0) {
-                FormEncodingBuilder formEncodingBuilder = new FormEncodingBuilder();
-                for (Map.Entry<String, String> entry : params.entrySet()) {
-                    formEncodingBuilder.add(entry.getKey(), entry.getValue());
+    public static HttpUtils getInstance() {
+        if (mInstance == null) {
+            synchronized (HttpUtils.class) {
+                if (mInstance == null) {
+                    mInstance = new HttpUtils();
                 }
-                builder.method(method, formEncodingBuilder.build());
-            } else {
-                builder.method(method, RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), new byte[]{})); // Empty body
             }
         }
-        builder.url(url).tag(tag);
-        if (headers != null && headers.size() > 0) {
-            builder.headers(Headers.of(headers));
-        }
-
-        Request request = builder.build();
-        deliverRequest(request, handler);
+        return mInstance;
     }
 
-    private static void deliverRequest(Request request, final StringResponseHandler handler) {
+    public void execute(RequestCall requestCall, ResponseHandler handler) {
+        if (handler != null) {
+            handler.onBefore(requestCall);
+        }
+        OKHttpRequestCall call = (OKHttpRequestCall) requestCall;
+        Request request = call.buildRequest();
+        deliverRequest(request, (OKHttpResponseHandler) handler);
+    }
+
+    protected void deliverRequest(Request request, final OKHttpResponseHandler handler) {
         getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
-            public void onResponse(Response response) throws IOException {
-                final String responseStr = response.body().string();
-                // Parse headers
-                Map<String, String> responseHeaders = new HashMap<>();
-                if (response.headers() != null && response.headers().size() > 0) {
-                    for (String key : response.headers().names()) {
-                        responseHeaders.put(key, response.headers().get(key));
-                    }
-                }
+            public void onResponse(Call call, Response response) throws IOException {
+                NetResponse netResponse = handler.parseResponse(response);
                 if (response.isSuccessful()) {
-                    LogUtils.i(responseStr);
-                    sendSuccessCallback(handler, responseStr, response.code(), responseHeaders);
+                    sendSuccessCallback(handler, netResponse);
                 } else {
                     NetError netError = new NetError();
                     netError.errorMessage = response.message();
-                    netError.statusCode = response.code();
-                    netError.headers = responseHeaders;
-                    netError.responseStr = responseStr;
-                    LogUtils.i(netError);
+                    netError.statusCode = netResponse.statusCode;
+                    netError.headers = netResponse.headers;
+                    netError.responseStr = netResponse.responseStr;
                     sendFailureCallback(handler, netError);
                 }
             }
 
             @Override
-            public void onFailure(Request request, IOException e) {
-                // Parse headers
+            public void onFailure(Call call, IOException e) {
+                Request request = call.request();
                 Map<String, String> headers = new HashMap<>();
                 for (String key : request.headers().names()) {
                     headers.put(key, request.headers().get(key));
@@ -113,116 +87,52 @@ public class HttpUtils {
                 netError.headers = headers;
                 netError.responseStr = "";
 
-                LogUtils.i(netError);
                 sendFailureCallback(handler, netError);
             }
-
         });
     }
 
-    private static void sendSuccessCallback(final StringResponseHandler responseHandler, final String responseStr, final int statusCode, final Map<String, String> headers) {
+    private void sendSuccessCallback(final ResponseHandler handler, final NetResponse response) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                responseHandler.onSuccess(responseStr, statusCode, headers);
+                handler.onSuccess(response);
+                handler.onAfter();
             }
         });
     }
 
-    private static void sendFailureCallback(final StringResponseHandler handler, final NetError netError) {
+    private void sendFailureCallback(final ResponseHandler handler, final NetError netError) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 handler.onFailure(netError);
+                handler.onAfter();
             }
         });
     }
 
-    public static void get(String url, final StringResponseHandler handler) {
-        sendRequest(METHOD_GET, url, null, null, null, handler);
-    }
-
-    public static void get(String url, Map<String, String> params, final StringResponseHandler handler) {
-        sendRequest(METHOD_GET, url, params, null, null, handler);
-    }
-
-    public static void get(String url, Map<String, String> params, Map<String, String> headers, Object tag, final StringResponseHandler handler) {
-        sendRequest(METHOD_GET, url, params, headers, tag, handler);
-    }
-
-    public static void post(String url, final StringResponseHandler handler) {
-        sendRequest(METHOD_POST, url, null, null, null, handler);
-    }
-
-    public static void post(String url, Map<String, String> params, final StringResponseHandler handler) {
-        sendRequest(METHOD_POST, url, params, null, null, handler);
-    }
-
-    public static void post(String url, Map<String, String> params, Map<String, String> headers, Object tag, final StringResponseHandler handler) {
-        sendRequest(METHOD_POST, url, params, headers, tag, handler);
-    }
-
-    public static void upload(String url, Map<String, String> params, Map<String, String> uploadFiles, final StringResponseHandler handler, Object tag, Map<String, String> headers) {
-        MultipartBuilder multipartBuilder = new MultipartBuilder().type(MultipartBuilder.FORM);
-        if (params != null && params.size() > 0) {
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                multipartBuilder.addFormDataPart(entry.getKey(), entry.getValue());
-            }
-        }
-        if (uploadFiles != null && uploadFiles.size() > 0) {
-            for (Map.Entry<String, String> entry : uploadFiles.entrySet()) {
-                String key = entry.getKey();
-                File file = new File(entry.getValue());
-                String fileName = file.getName();
-                RequestBody fileBody = RequestBody.create(MediaType.parse(guessMimeType(fileName)), file);
-                multipartBuilder.addFormDataPart(key, fileName, fileBody);
-            }
-        }
-
-        Request.Builder builder = new Request.Builder();
-        builder.url(url).tag(tag).post(multipartBuilder.build());
-        if (headers != null && headers.size() > 0) {
-            builder.headers(Headers.of(headers));
-        }
-        deliverRequest(builder.build(), handler);
-    }
-
-    public static OkHttpClient getOkHttpClient() {
+    public OkHttpClient getOkHttpClient() {
         if (mClient == null) {
-            mClient = new OkHttpClient();
-            mClient.setConnectTimeout(10, TimeUnit.SECONDS);
-            mClient.setReadTimeout(10, TimeUnit.SECONDS);
-            mClient.setWriteTimeout(30, TimeUnit.SECONDS);
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.connectTimeout(10, TimeUnit.SECONDS);
+            builder.readTimeout(10, TimeUnit.SECONDS);
+            builder.writeTimeout(30, TimeUnit.SECONDS);
+            mClient = builder.build();
         }
         return mClient;
     }
 
-    public static String encodeParameters(Map<String, String> params) {
-        StringBuilder encodedParams = new StringBuilder();
-        try {
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                encodedParams.append(URLEncoder.encode(entry.getKey(), CHARSET_UTF8));
-                encodedParams.append('=');
-                encodedParams.append(URLEncoder.encode(entry.getValue(), CHARSET_UTF8));
-                encodedParams.append('&');
-            }
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Encoding not supported: " + CHARSET_UTF8, e);
-        }
-        String result = encodedParams.toString();
-        if (result.endsWith("&")) {
-            result = result.substring(0, result.lastIndexOf("&"));
-        }
-        return result;
+    public static GetBuilder get() {
+        return new GetBuilder();
     }
 
-    private static String guessMimeType(String path) {
-        FileNameMap fileNameMap = URLConnection.getFileNameMap();
-        String contentTypeFor = fileNameMap.getContentTypeFor(path);
-        if (contentTypeFor == null) {
-            contentTypeFor = "application/octet-stream";
-        }
-        return contentTypeFor;
+    public static PostFormBuilder post() {
+        return new PostFormBuilder();
+    }
+
+    public static PostStringBuilder postString() {
+        return new PostStringBuilder();
     }
 
 }
