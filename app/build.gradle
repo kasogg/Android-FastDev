@@ -14,18 +14,9 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "boolean", "LOG_DEBUG", "true"
-            debuggable true
-            minifyEnabled false
-            zipAlignEnabled false
-            shrinkResources false
         }
-
         release {
-            buildConfigField "boolean", "LOG_DEBUG", "false"
-            debuggable false
             minifyEnabled true
-            zipAlignEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -38,6 +29,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':booster')
+    debugCompile project(path: ':booster', configuration: 'debug')
+    releaseCompile project(path: ':booster', configuration: 'release')
     compile 'com.jakewharton:butterknife:7.0.1'
 }

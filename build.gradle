@@ -4,13 +4,14 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
+        classpath 'com.android.tools.build:gradle:2.0.0-alpha6'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.6'
     }
 }
 
 allprojects {
     repositories {
+        maven {url 'http://jcenter.chengyong.net'}
         jcenter()
     }
 }

@@ -1,17 +1,11 @@
-/**
- * @系统项目名称:Openfire项目研究
- * @author leo
- * @version 1.0
- * @创建时间：2014-2-27 下午11:51:31
- * @copyright:ilindo公司-版权所有
- * @描述:
- */
 package cn.kasogg.booster.util;
 
 import android.util.Log;
 
+import cn.kasogg.booster.BuildConfig;
+
 public class LogUtils {
-    public static final boolean IS_LOG = true;
+    public static final boolean IS_LOG = BuildConfig.IS_LOGGABLE;
     private static final String DEFAULT_TAG = "LOG";
 
     private LogUtils() {

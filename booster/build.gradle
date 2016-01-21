@@ -3,6 +3,7 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 23
     buildToolsVersion '23.0.2'
+    publishNonDefault true
 
     defaultConfig {
         minSdkVersion 15
@@ -12,10 +13,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "boolean", "IS_LOGGABLE", "true"
+        }
         release {
-            minifyEnabled false
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "IS_LOGGABLE", "false"
         }
     }
 }
