@@ -9,7 +9,7 @@
 * [EventBus](https://github.com/greenrobot/EventBus)
 * 常用工具类
 
-## HttpUtils
+## 自己封装的HttpUtils
 
 ```
 HttpUtils.post().url("http://www.baidu.com").params(params).files(files).headers(headers).tag(tag).build().execute(new StringResponseHandler() {
