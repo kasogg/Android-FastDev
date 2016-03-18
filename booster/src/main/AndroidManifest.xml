@@ -1,5 +1,5 @@
 <manifest
-    package="cn.kasogg.booster"
+    package="com.kasogg.booster"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>

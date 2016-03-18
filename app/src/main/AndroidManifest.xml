@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    package="cn.kasogg.sample"
+    package="com.kasogg.sample"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:name=".base.MApplication"
+        android:name="com.kasogg.sample.base.MApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.kasogg.sample.activity.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
